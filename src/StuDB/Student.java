@@ -8,6 +8,7 @@ public class Student {
     private String StuTel;
     private int JavaGrade;
 
+
     public Student(int StuID,String StuName,String StuSex,int StuAge,String StuTel,int JavaGrade){
         this.StuID = StuID;
         this.StuName = StuName;
@@ -17,6 +18,7 @@ public class Student {
         this.JavaGrade = JavaGrade;
     }
 
+    //返回StuID
     public int getStuID() {
         return StuID;
     }
@@ -41,6 +43,7 @@ public class Student {
         return JavaGrade;
     }
 
+    //设置StuID
     public void setStuID(int stuID) {
         StuID = stuID;
     }

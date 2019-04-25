@@ -14,7 +14,7 @@ public class DBUtil {
 
 
 
-
+    //加载驱动，获取数据库连接
     static {
         try {
             Class.forName(sDBDriver);
@@ -26,10 +26,12 @@ public class DBUtil {
         }
     }
 
+    //连接数据库
     public static Connection getConnection(){
         return connection;
     }
 
+    //获取查询结果
     public ResultSet executeQuery(String s){
         try {
             getConnection();
@@ -42,43 +44,14 @@ public class DBUtil {
         }
     }
 
-//    public void setDB(Student student,boolean boo){
-//        try {
-//            getConnection();
-//            String sql1 = "insert into StuInfo(StuID,StuName,StuSex,StuAge,StuTel,JavaGrade) values (?,?,?,?,?,?)";
-//            String sql2 = "update StuInfo where StuID=? set StuName=?,StuSex=?,StuAge=?,StuTel=?,JavaGrade=? values (?,?,?,?,?,?)";
-//            if(boo){
-//                preparedStatement = connection.prepareStatement(sql1);
-//            }else {
-//                preparedStatement = connection.prepareStatement(sql2);
-//            }
-//            preparedStatement.setInt(1,student.getStuID());
-//            preparedStatement.setString(2,student.getStuName());
-//            preparedStatement.setString(3,student.getStuSex());
-//            preparedStatement.setInt(4,student.getStuAge());
-//            preparedStatement.setString(5,student.getStuTel());
-//            preparedStatement.setInt(6,student.getJavaGrade());
-//
-//            preparedStatement.execute();
-//        }catch (SQLException e){
-//            e.printStackTrace();
-//        }
-//
-//    }
-//    public void insertDB(Student student){
-//        setDB(student,true);
-//    }
-//
-//    public void changeDB(Student student){
-//        setDB(student,false);
-//    }
-
-
+    //插入数据
     public void insertDB(Student student){
         getConnection();
+        //SQL语句插入values到StuInfo
         String sql = "insert into StuInfo(StuID,StuName,StuSex,StuAge,StuTel,JavaGrade) values (?,?,?,?,?,?)";
         try {
             preparedStatement = connection.prepareStatement(sql);
+            //将student里的StuID放入第一个问号
             preparedStatement.setInt(1,student.getStuID());
             preparedStatement.setString(2,student.getStuName());
             preparedStatement.setString(3,student.getStuSex());
@@ -86,6 +59,7 @@ public class DBUtil {
             preparedStatement.setString(5,student.getStuTel());
             preparedStatement.setInt(6,student.getJavaGrade());
 
+            //更新数据库
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,11 +67,14 @@ public class DBUtil {
 
     }
 
+    //根据学生ID修改学生信息
     public void changeDB(Student student){
         getConnection();
+        //根据StuID修改学生信息
         String sql = "update StuInfo set StuName=?,StuSex=?,StuAge=?,StuTel=?,JavaGrade=? where StuID=?";
         try {
             preparedStatement = connection.prepareStatement(sql);
+            //将student的StuID放到SQL语句的第六个问号的位置
             preparedStatement.setInt(6,student.getStuID());
             preparedStatement.setString(1,student.getStuName());
             preparedStatement.setString(2,student.getStuSex());
@@ -111,9 +88,11 @@ public class DBUtil {
         }
     }
 
+    //根据学生ID删除学生信息
     public void deleteDB(int StuID){
         try {
             getConnection();
+            //SQL语句在StuInfo删除StuID为某某的数据
             String sql = "delete from StuInfo where StuID = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,StuID);
@@ -124,20 +103,7 @@ public class DBUtil {
         }
     }
 
-
-    public void closeConnection(){
-        try {
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }catch (Exception e){
-            System.out.println(e.toString());
-        }
-    }
-
+    //测试
     public static void main(String[] args) {
         DBUtil dbUtil = new DBUtil();
         Student student = new Student(170003,"重负","男",12,"12345432",12);

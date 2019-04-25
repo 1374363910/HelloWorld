@@ -27,19 +27,27 @@ public class GUIDemo extends JFrame {
     private DBUtil dbUtil = new DBUtil();
 
     GUIDemo(){
+        //窗口标题
         setTitle("学生信息系统");
+        //窗口大小
         setSize(500,560);
-        //setLocation(500,800);
+        //窗口退出
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //设置jPanel1网格布局，三行一列
         jPanel1.setLayout(new GridLayout(3,1));
+        //第一行放jLabel
         jPanel1.add(jLabel);
         jPanel1.add(jTextField);
         jPanel1.add(jButton1);
+        //设置container边界布局，将jPanel放到NORTH
         container.add(jPanel1,BorderLayout.NORTH);
+        //设置jPanel2网格布局，一行三列
         jPanel2.setLayout(new GridLayout(1,3));
+        //将jButton2放到第一列
         jPanel2.add(jButton2);
         jPanel2.add(jButton3);
         jPanel2.add(jButton4);
+        //将jPanel放到container的CENNTER处
         container.add(jPanel2,BorderLayout.CENTER);
         try {
             submitDB();
@@ -48,6 +56,7 @@ public class GUIDemo extends JFrame {
         }
 
 
+        //给jButton1设置监听执行查询功能
         jButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,6 +68,7 @@ public class GUIDemo extends JFrame {
             }
         });
 
+        //给jButton2设置监听执行增加功能
         jButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,6 +76,7 @@ public class GUIDemo extends JFrame {
             }
         });
 
+        //给jButton3设置监听执行删除功能
         jButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,6 +84,7 @@ public class GUIDemo extends JFrame {
             }
         });
 
+        //给jButton4设置监听执行修改功能
         jButton4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,16 +96,21 @@ public class GUIDemo extends JFrame {
 
 
 
+    //查询
     public void submitDB() throws SQLException {
+        //用户在文本框中输入的内容（SQL语句）赋值给input
         String input = jTextField.getText();
+        //根据input执行对数据库的操作
         ResultSet resultSet = dbUtil.executeQuery(input);
 
+        //检查数据库是否为空
         boolean moreRecords = resultSet.next();
         if(!moreRecords){
             JOptionPane.showMessageDialog(null,"结果集中无记录");
             setTitle("无记录显示");
             return;
         }
+
 
         Vector columnHeads = new Vector();
         Vector rows = new Vector();
@@ -104,6 +121,7 @@ public class GUIDemo extends JFrame {
                 columnHeads.addElement(resultSetMetaData.getColumnName(i));
             }
 
+            //打印数据
             do {
                 Vector currentRow = new Vector();
                 for (int i = 1; i <= resultSetMetaData.getColumnCount(); ++i) {
@@ -127,6 +145,7 @@ public class GUIDemo extends JFrame {
         JTextField StuAge = new JTextField();
         JTextField StuTel = new JTextField();
         JTextField JavaGrade = new JTextField();
+        //给弹窗设置多个文本框
         final JComponent[] input = new JComponent[]{
                 new JLabel("学号"),
                 StuID,
